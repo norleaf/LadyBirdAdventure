@@ -6,11 +6,13 @@ package sprites;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState;
+import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.Vector2f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
-import com.jme3.texture.Texture2D;
+import com.jme3.texture.Texture;
 
 /**
  *
@@ -31,17 +33,23 @@ public class Sprite extends Node{
     }
     
     public Sprite(AssetManager assetManager, String image, Vector2f position) {
-        
         this.position = position;
+        Texture loadTexture = assetManager.loadTexture("Textures/"+image+".png");
+        material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        material.setTexture("ColorMap", loadTexture);
+        material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+        int width = loadTexture.getImage().getWidth();
+        int height = loadTexture.getImage().getHeight();
+        quad = new Quad(width,height);
+        geometry = new Geometry("Sprite", quad);
+        geometry.setMaterial(material);
+        this.attachChild(geometry);
     }
-    /*
-     * Quad quad = new Quad(1300, 800);
-        Geometry quadGeo = new Geometry("quad", quad);
-        Material mat2 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat2.setTexture("ColorMap", assetManager.loadTexture("Textures/Pic.png"));
-        quadGeo.setMaterial(mat2);
-        guiNode.attachChild(quadGeo);
-     */
+    public void update(float tpf){
+        
+    }
     
-    
+    public void draw(){
+        
+    }
 }
